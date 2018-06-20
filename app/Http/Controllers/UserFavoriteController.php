@@ -18,16 +18,18 @@ class UserFavoriteController extends Controller
         return redirect()->back();
     }
     
-    public function favorite($id)
+    public function favorite_micropost($id)
     {
-        $favorite = $favorite->favorite()->paginate(10);
+        $user = User::find($id);
+        $favorite_micropost = $user->favorite_micropost()->paginate(10);
 
         $data = [
-            'favorite' => $favorite,
+            'user' => $user,
+            'microposts' => $favorite_micropost,
         ];
 
-        $data->counts($favorite);
+        $data += $this ->counts($user);
 
-        return view('users.favorite', $data);
+        return view('users.favorite_micropost', $data);
     }
 }

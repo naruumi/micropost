@@ -48,8 +48,8 @@ class UsersController extends Controller
 
     public function followers($id)
     {
-        $user = User::find($id);
-        $followers = $user->followers()->paginate(10);
+        $user = User::find($id); 
+        $followers = $user->followers()->pag1inate(10);
 
         $data = [
             'user' => $user,
@@ -60,4 +60,21 @@ class UsersController extends Controller
 
         return view('users.followers', $data);
     }
+    
+      
+    public function favorite_micropost($id)
+    { 
+        
+        $user = User::find($id);
+        $favorite_micropost = $user->favorite_micropost()->paginate(10);
+        
+        $data = [
+            'user' => $user,
+            'microposts' => $favorite_micropost,
+        ];
+        
+        $data += $this->counts($user);
+        
+        return view('users.favorite_micropost',$data);
+     }
 }
