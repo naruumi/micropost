@@ -11,22 +11,14 @@
                     <img class="media-object img-rounded img-responsive" src="{{ Gravatar::src($user->email, 500) }}" alt="">
                 </div>
             </div>
-           @if (Auth::user()->is_favorite_micropost(1))
-                {!! Form::open(['route' => ['user.unfavorite', $micropost->id], 'method' => 'delete']) !!}
-                {!! Form::submit('Unfavorite', ['class' => "btn btn-danger"]) !!}
-                {!! Form::close() !!}
-            @else
-                {!! Form::open(['route' => ['user.favorite', $micropost->id]]) !!}
-                {!! Form::submit('Favorite', ['class' => "btn btn-primary"]) !!}
-                {!! Form::close() !!}
-            @endif
+            @include('user_follow.follow_button', ['user' => $user])
         </aside>
         <div class="col-xs-8">
             <ul class="nav nav-tabs nav-justified">
-                <li role="presentation" class="{{ Request::is('users/' . $user->id) ? 'active' : '' }}"><a href="{{ route('users.show', ['id' => $user->id]) }}">TimeLine <span class="badge">{{ $count_microposts }}</span></a></li>
+                <li role="presentation" class="{{ Request::is('users/' . $user->id) ? 'active' : '' }}"><a href="{{ route('users.show', ['id' => $user->id]) }}">>TimeLine <span class="badge">{{ $count_microposts }}</span></a></li>
                 <li role="presentation" class="{{ Request::is('users/*/followings') ? 'active' : '' }}"><a href="{{ route('users.followings', ['id' => $user->id]) }}">Followings <span class="badge">{{ $count_followings }}</span></a></li>
                 <li role="presentation" class="{{ Request::is('users/*/followers') ? 'active' : '' }}"><a href="{{ route('users.followers', ['id' => $user->id]) }}">Followers <span class="badge">{{ $count_followers }}</span></a></li>
-                 <li role="presentation" class="{{ Request::is('users/*/favorites') ? 'active' : '' }}"><a href="{{ route('users.favorites', ['id' => $user->id]) }}">Favorite <span class="badge">{{ $count_favorites }}</span></a></li>
+                <li role="presentation" class="{{ Request::is('users/*/favorite_micropost') ? 'active' : '' }}"><a href="{{ route('users.favorite_micropost', ['id' => $user->id]) }}">Favorite <span class="badge">{{ $count_favorite_micropost }}</span></a></li>
             </ul>
             @include('microposts.microposts', ['microposts' => $microposts])
         </div>
